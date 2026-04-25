@@ -6,7 +6,7 @@ class Parser:
         pass
 
     @staticmethod
-    def parse_battery( arg: str):
+    def parse_mock_battery( arg: str):
         match = re.search(r"The battery level is (\d+) and the device is currently (\w+)", arg)
         if match:
             battery_level = int(match.group(1))
@@ -14,12 +14,12 @@ class Parser:
         else:
             battery_level = "unavailable"
             status = "unavailable"
-        dict = {
+        mock_battery_data = {
             "battery_level": battery_level,
             "status": status
         }
-        return dict
-    
+        return mock_battery_data
+
     @staticmethod
     def parse_os( arg: str):
         match = re.search(r"Operating System: (\w+) (\d+)", arg)
@@ -29,11 +29,11 @@ class Parser:
         else:
             os = "unavailable"
             version = "unavailable"
-        dict = {
+        os_data = {
             "os": os,
             "version": version
         }
-        return dict
+        return os_data
     
     @staticmethod
     def parse_device_model( arg: str):
@@ -44,8 +44,23 @@ class Parser:
         else:
             model = "unavailable"
             manufacturer = "unavailable"
-        dict = {
+        model_data = {
             "model": model,
             "manufacturer": manufacturer
         }
-        return dict
+        return model_data
+    
+    @staticmethod
+    def parse_android_battery( arg: str):
+        match = re.search(r"level: (\d+)", arg)
+        status_match = re.search(r"status: (\d+)", arg)
+        if match and status_match:
+            battery_level = int(match.group(1))
+            status = 'charging' if int(status_match.group(1)) == 2 else 'not charging'
+        else:
+            battery_level, status = "unavailable", "unavailable"
+        android_battery_data = {
+            "battery_level": battery_level,
+            "status": status
+        }
+        return android_battery_data

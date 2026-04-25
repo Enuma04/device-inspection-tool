@@ -25,4 +25,3 @@ exit
 python main.py
 
 ## Sample Output
-[paste your terminal output]
